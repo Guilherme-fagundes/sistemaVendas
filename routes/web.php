@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Site\SiteController;
+use App\Http\Controllers\Site\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,4 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [SiteController::class, 'index'])->name('site.home');
+Route::get('/', [LoginController::class, 'index'])->name('login.index');
+Route::post('/loginPost', [LoginController::class, 'loginPost'])->name('login.post');
+
+Route::prefix('admin')->group(function (){
+
+});

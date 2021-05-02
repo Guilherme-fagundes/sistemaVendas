@@ -1,4 +1,4 @@
-@extends('site.layout.templade')
+@extends('login.layout.templade')
 @section('main')
     <section class="main">
 
