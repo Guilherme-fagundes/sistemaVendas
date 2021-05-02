@@ -12,6 +12,11 @@ class LoginController extends Controller
 {
     public function index()
     {
+        if (session()->get('userId')){
+            return redirect()->route('dash.index');
+
+        }
+
         return view('login.index', [
             'title' => env('APP_NAME') . " | Login"
         ]);
@@ -19,10 +24,7 @@ class LoginController extends Controller
 
     public function loginPost(Request $request)
     {
-        if (session()->get('userId')){
-            return redirect()->route('dash.index');
 
-        }
 
         if ($request->all()){
             $loginDataPost = $request->only(['email', 'pass']);
@@ -40,7 +42,9 @@ class LoginController extends Controller
                     return redirect()->back()->withErrors(['error', 'Nenhuma conta com estes dados']);
 
                 }else{
-                    echo "Pode Logar";
+
+                    session()->put('userId', $email->id);
+                    return redirect()->route('login.index');
                 }
             }
         }
