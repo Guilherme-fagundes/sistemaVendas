@@ -10,11 +10,19 @@ class DashController extends Controller
 {
     public function index()
     {
-       if (!session()->get('userId')){
-           return redirect()->route('login.index');
+        if (!session()->get('userId')) {
+            return redirect()->route('login.index');
 
-       }
+        }
 
-       echo "Logado";
+        return view('dash/index', [
+            'title' => "Minha conta"
+        ]);
+    }
+
+    public function logout()
+    {
+        session()->forget('userId');
+        return redirect()->route('login.index')->withErrors(['sussess', 'Você saiu do sistema. Volte sempre :)']);
     }
 }

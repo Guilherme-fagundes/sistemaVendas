@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashController;
+use App\Http\Controllers\Admin\VendaController;
 use App\Http\Controllers\Site\LoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,10 @@ Route::post('/loginPost', [LoginController::class, 'loginPost'])->name('login.po
 
 Route::prefix('admin')->group(function (){
     Route::get('/', [DashController::class, 'index'])->name('dash.index');
+    Route::get('/logout', [DashController::class, 'logout'])->name('dash.logout');
+
+    //Vendas
+    Route::get('/vendas', [VendaController::class, 'index'])->name('dash.vendas');
+    Route::post('/vendaPost', [VendaController::class, 'searchProd'])->name('venda.searchProd');
+
 });
