@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Helpers\SessionHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,11 @@ class LoginController extends Controller
 
     public function loginPost(Request $request)
     {
+        if (session()->get('userId')){
+            return redirect()->route('dash.index');
+
+        }
+
         if ($request->all()){
             $loginDataPost = $request->only(['email', 'pass']);
 

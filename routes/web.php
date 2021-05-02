@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashController;
 use App\Http\Controllers\Site\LoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,5 +19,5 @@ Route::get('/', [LoginController::class, 'index'])->name('login.index');
 Route::post('/loginPost', [LoginController::class, 'loginPost'])->name('login.post');
 
 Route::prefix('admin')->group(function (){
-
+    Route::get('/', [DashController::class, 'index'])->name('dash.index');
 });
