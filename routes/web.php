@@ -26,5 +26,7 @@ Route::prefix('admin')->group(function (){
     //Vendas
     Route::get('/vendas', [VendaController::class, 'index'])->name('dash.vendas');
     Route::post('/vendaPost', [VendaController::class, 'searchProd'])->name('venda.searchProd');
+    Route::get('/venda/apagar/{id}', [VendaController::class, 'delete'])->name('pvenda.del');
+    Route::post('/vendaFim', [VendaController::class, 'fimPost'])->name('venda.finaliza.post');
 
 });
