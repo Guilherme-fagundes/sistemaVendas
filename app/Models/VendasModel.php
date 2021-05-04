@@ -10,4 +10,5 @@ class VendasModel extends Model
     use HasFactory;
 
     protected $table = "vendas";
+
 }

@@ -18,7 +18,8 @@
                         <tr>
                             <th>Item</th>
                             <th>Data da venda</th>
-                            <th>total</th>
+                            <th>Total</th>
+                            <th>Endereço</th>
                         </tr>
                     </table>
                 </div>

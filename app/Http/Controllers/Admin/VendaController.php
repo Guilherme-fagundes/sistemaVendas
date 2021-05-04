@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\ItensModel;
-use App\Models\PreVendaModel;
+use App\Models\EnderecoModel;
 use App\Models\VendasModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -84,38 +83,29 @@ class VendaController extends Controller
                     $request->request->remove('total');
 
 
-                    $idEndereco = DB::table('endereco')
-                        ->insertGetId($request->all());
-
                     foreach ($getPreVenda->all() as $arrVendadata) {
+                        $arrVendadata = (array)$arrVendadata;
+
 
                         $datavenda = [
-                            'end_id' => $idEndereco,
-                            'total' => $this->totalVenda
+                            'total' => $this->totalVenda,
+                            'item' => $arrVendadata['nome']
                         ];
+                        $dataEnd = $request->all();
 
-                        $createVendaId = DB::table('vendas')
-                            ->insertGetId($datavenda);
+                        $dataCreateVenda = array_merge($datavenda, $dataEnd);
 
-                        $createItemId = DB::table('itens')
-                            ->insertGetId([
-                                'venda_id' => $createVendaId,
-                                'produto' => $arrVendadata->nome
-                            ]);
+                        $create = DB::table('vendas')
+                            ->insertGetId($dataCreateVenda);
 
-                        $updateItemIdVenda = DB::table('vendas')
-                            ->update([
-                                'iten_id' => $createItemId
-                            ]);
+                        if ($create){
+                            $delPVenda = DB::table('prevenda')->delete();
 
-                        if ($updateItemIdVenda) {
-                            $delPreVenda = DB::table('prevenda')->delete();
-                            if ($delPreVenda) {
-
+                            if ($delPVenda){
+                                return redirect()->route('vendas.relatorios');
                             }
 
                         }
-
                     }
 
 
@@ -130,6 +120,8 @@ class VendaController extends Controller
             return redirect()->route('login.index');
 
         }
+        
+
 
         return view('dash.vendas.relatorios', [
             'title' => "Minha conta | Relatorio de vendas"
