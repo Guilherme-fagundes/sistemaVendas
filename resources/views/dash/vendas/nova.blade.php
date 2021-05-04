@@ -12,7 +12,6 @@
                                 <th>Nome</th>
                                 <th>Fornecedor</th>
                                 <th>Preço</th>
-
                                 <th>Opções</th>
                             </tr>
                         </thead>

@@ -126,6 +126,13 @@ class VendaController extends Controller
 
     public function relatorios()
     {
+        if (!session()->get('userId')) {
+            return redirect()->route('login.index');
 
+        }
+
+        return view('dash.vendas.relatorios', [
+            'title' => "Minha conta | Relatorio de vendas"
+        ]);
     }
 }
