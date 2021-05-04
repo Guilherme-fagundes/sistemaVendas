@@ -35,7 +35,8 @@
                     <a href="{{ route('dash.index') }}" class="nav-link">Dashboard</a>
                     <a href="" class="nav-link">Produtos</a>
                     <a href="" class="nav-link">Fornecedores</a>
-                    <a href="{{ route('dash.vendas') }}" class="nav-link">vendas</a>
+                    <a href="{{ route('dash.vendas') }}" class="nav-link">Vendas</a>
+                    <a href="{{ route('vendas.relatorios') }}" class="nav-link">Relatórios das vendas</a>
 
                 </nav>
             </div>

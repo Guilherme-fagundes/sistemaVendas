@@ -68,16 +68,16 @@ class VendaController extends Controller
 
     public function fimPost(Request $request)
     {
-        if ($request->all()){
-            if (in_array('', $request->all())){
+        if ($request->all()) {
+            if (in_array('', $request->all())) {
                 return redirect()->back()->withErrors(['error', 'parece haver campos em branco']);
 
-            }else{
+            } else {
                 $getPreVenda = DB::table('prevenda')->get();
 
-                if (!$getPreVenda->all()){
+                if (!$getPreVenda->all()) {
                     return redirect()->back()->withErrors(['error', 'Dados de compras não existem']);
-                }else{
+                } else {
 
                     $request->request->remove('_token');
                     $this->totalVenda = $request->total;
@@ -87,32 +87,33 @@ class VendaController extends Controller
                     $idEndereco = DB::table('endereco')
                         ->insertGetId($request->all());
 
-                    $arrIdEnd = [
-                        'end_id' => $idEndereco
-                    ];
+                    foreach ($getPreVenda->all() as $arrVendadata) {
 
-                    foreach ($getPreVenda->all() as $arrVendadata){
+                        $datavenda = [
+                            'end_id' => $idEndereco,
+                            'total' => $this->totalVenda
+                        ];
 
-                        dd($arrVendadata);
-                        $createItem = new ItensModel();
+                        $createVendaId = DB::table('vendas')
+                            ->insertGetId($datavenda);
 
-                        $createVenda = new VendasModel();
-                        $createVenda->end_id = $idEndereco;
-                        $createVenda->iten_id = $createItem->id;
-                        $createVenda->produto = $arrVendadata->nome;
-                        $createVenda->total = $this->totalVenda;
-                        $createVenda->save();
+                        $createItemId = DB::table('itens')
+                            ->insertGetId([
+                                'venda_id' => $createVendaId,
+                                'produto' => $arrVendadata->nome
+                            ]);
 
-                        $createItem->venda_id = $createVenda->id;
-                        $createItem->save();
+                        $updateItemIdVenda = DB::table('vendas')
+                            ->update([
+                                'iten_id' => $createItemId
+                            ]);
 
-                        $createVenda->iten_id = $createItem->id;
-                        $createVenda->update();
+                        if ($updateItemIdVenda) {
+                            $delPreVenda = DB::table('prevenda')->delete();
+                            if ($delPreVenda) {
 
-                        $delPreVen = DB::table('prevenda')->delete();
+                            }
 
-                        if ($delPreVen){
-                            return redirect()->back();
                         }
 
                     }
@@ -121,5 +122,10 @@ class VendaController extends Controller
                 }
             }
         }
+    }
+
+    public function relatorios()
+    {
+
     }
 }
