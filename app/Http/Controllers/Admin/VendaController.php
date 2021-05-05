@@ -83,7 +83,7 @@ class VendaController extends Controller
                     $request->request->remove('total');
 
 
-                    foreach ($getPreVenda->all() as $arrVendadata) {
+                    foreach ($getPreVenda as $arrVendadata) {
                         $arrVendadata = (array)$arrVendadata;
 
 
