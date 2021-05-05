@@ -60,7 +60,7 @@ class VendaController extends Controller
     {
         $delPVenda = DB::table('prevenda')->delete($id);
         if ($delPVenda) {
-            return redirect()->back();
+            return redirect()->route('dash.vendas');
 
         }
     }
@@ -96,7 +96,7 @@ class VendaController extends Controller
                         $dataCreateVenda = array_merge($datavenda, $dataEnd);
 
                         $create = DB::table('vendas')
-                            ->insertGetId($dataCreateVenda);
+                            ->insert([$dataCreateVenda]);
 
                         if ($create){
                             $delPVenda = DB::table('prevenda')->delete();
@@ -120,11 +120,14 @@ class VendaController extends Controller
             return redirect()->route('login.index');
 
         }
-        
+
+        $readVendas = DB::table('vendas')->get();
+
 
 
         return view('dash.vendas.relatorios', [
-            'title' => "Minha conta | Relatorio de vendas"
+            'title' => "Minha conta | Relatorio de vendas",
+            "readVendas" => $readVendas
         ]);
     }
 }
